@@ -10,7 +10,7 @@
 #include "traceback.h"
 #include "core/typeconv/typeconv.hpp"
 #include "_devicearray.h"
-
+#include "iostream"
 /*
  * Notes on the C_TRACE macro:
  *
@@ -512,7 +512,7 @@ Dispatcher_init(Dispatcher *self, PyObject *args, PyObject *kwds)
     int can_fallback;
     int has_stararg = 0;
     int exact_match_required = 0;
-
+    std::cout << "Dispatcher_init " << __LINE__ << std::endl;
     if (!PyArg_ParseTuple(args, "OiiO!O!i|ii", &tmaddrobj, &argct,
                           &self->fold_args,
                           &PyTuple_Type, &self->argnames,
@@ -1281,19 +1281,20 @@ find_named_args(Dispatcher *self, PyObject **pargs, PyObject **pkws)
 static PyObject*
 Dispatcher_call(Dispatcher *self, PyObject *args, PyObject *kws)
 {
-    PyObject *tmptype, *retval = NULL;
-    int *tys = NULL;
-    int argct;
-    int i;
-    int prealloc[24];
-    int matches;
-    PyObject *cfunc;
-    PyThreadState *ts = PyThreadState_Get();
-    PyObject *locals = NULL;
+  std::cout << "Dispatcher_call " << __LINE__ << std::endl;
+  PyObject *tmptype, *retval = NULL;
+  int *tys = NULL;
+  int argct;
+  int i;
+  int prealloc[24];
+  int matches;
+  PyObject *cfunc;
+  PyThreadState *ts = PyThreadState_Get();
+  PyObject *locals = NULL;
 
-    /* If compilation is enabled, ensure that an exact match is found and if
-     * not compile one */
-    int exact_match_required = self->can_compile ? 1 : self->exact_match_required;
+  /* If compilation is enabled, ensure that an exact match is found and if
+   * not compile one */
+  int exact_match_required = self->can_compile ? 1 : self->exact_match_required;
 
 #if (PY_MAJOR_VERSION >= 3) && (PY_MINOR_VERSION >= 10)
     if (ts->tracing && ts->c_profilefunc) {

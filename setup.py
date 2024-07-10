@@ -85,6 +85,8 @@ class NumbaBuildExt(build_ext):
     def build_extensions(self):
         while '-O2' in self.compiler.compiler_so:
             self.compiler.compiler_so.remove('-O2')
+        while '-DNDEBUG' in self.compiler.compiler_so:
+            self.compiler.compiler_so.remove('-DNDEBUG')
         super(NumbaBuildExt, self).build_extensions()
 
     def initialize_options(self):
@@ -100,6 +102,7 @@ class NumbaBuildExt(build_ext):
                 extra_compile_args.append('/Od')
             else:
                 extra_compile_args.append('-O0')
+                extra_compile_args.append('-g3')
         if self.werror:
             extra_compile_args.append('-Werror')
         if self.wall:

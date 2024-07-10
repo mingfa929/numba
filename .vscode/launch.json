@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "debugpy",
+      "name": "dpy current file",
       "type": "debugpy",
       "request": "launch",
       "program": "${file}",
