@@ -81,6 +81,12 @@ class NumbaBuildExt(build_ext):
     user_options = build_ext.user_options + numba_be_user_options
     boolean_options = build_ext.boolean_options + ['werror', 'wall', 'noopt']
 
+
+    def build_extensions(self):
+        while '-O2' in self.compiler.compiler_so:
+            self.compiler.compiler_so.remove('-O2')
+        super(NumbaBuildExt, self).build_extensions()
+
     def initialize_options(self):
         super().initialize_options()
         self.werror = 0
@@ -102,7 +108,6 @@ class NumbaBuildExt(build_ext):
             ext.extra_compile_args.extend(extra_compile_args)
 
         super().run()
-
 
 cmdclass['build_ext'] = NumbaBuildExt
 
@@ -136,6 +141,7 @@ def get_ext_modules():
     # build dependencies. Need NumPy headers and libm linkage.
     import numpy as np
     np_compile_args = {'include_dirs': [np.get_include(),],}
+
     if sys.platform != 'win32':
         np_compile_args['libraries'] = ['m',]
 
