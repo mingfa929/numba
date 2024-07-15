@@ -16,3 +16,8 @@ def go_fast(a): # Function is compiled to machine code when called the first tim
 
 x = np.arange(100).reshape(10, 10)
 go_fast(x)
+def add(a, b):
+    return a + b
+print("++++1")
+print(add(1, 2))
+print("=====2")
